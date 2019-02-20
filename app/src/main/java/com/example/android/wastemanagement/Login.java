@@ -16,8 +16,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 public class Login extends AppCompatActivity {
@@ -91,12 +95,25 @@ public class Login extends AppCompatActivity {
                                     }
                                 } else {
                                     loginProgress.dismiss();
-                                    String token = FirebaseInstanceId.getInstance().getToken();
+                                    final String token = FirebaseInstanceId.getInstance().getToken();
                                     dbtoken = FirebaseDatabase.getInstance().getReference().child("user_details")
-                                            .child(auth.getUid()).child("token");
-                                    dbtoken.setValue(token);
-                                    startActivity(new Intent(Login.this, Home.class));
-                                    finish();
+                                            .child(auth.getUid());
+                                    dbtoken.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            String userType = dataSnapshot.getValue(String.class);
+                                            DatabaseReference db = FirebaseDatabase.getInstance().getReference().child(userType)
+                                                .child(auth.getUid()).child("token");
+                                            db.setValue(token);
+                                            startActivity(new Intent(Login.this, Home.class));
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
                                 }
                                 loginProgress.dismiss();
 

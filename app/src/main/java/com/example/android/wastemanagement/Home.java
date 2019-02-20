@@ -66,7 +66,7 @@ public class Home extends AppCompatActivity {
                         drawer.closeDrawers();
 
                         if(menuItem.getItemId() == R.id.logout){
-                            dbtoken = FirebaseDatabase.getInstance().getReference().child("user_details")
+                            /*dbtoken = FirebaseDatabase.getInstance().getReference().child("user_details")
                                     .child(auth.getUid()).child("token");
                             dbtoken.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -79,7 +79,7 @@ public class Home extends AppCompatActivity {
                                 public void onCancelled(DatabaseError databaseError) {
 
                                 }
-                            });
+                            });*/
                             auth.signOut();
                             userF = FirebaseAuth.getInstance().getCurrentUser();
                             if (userF == null) {
@@ -145,7 +145,7 @@ public class Home extends AppCompatActivity {
 
         Log.d("auth_id",auth.getUid());
         dbuser = FirebaseDatabase.getInstance().getReference().child("user_details").child(auth.getUid());
-        dbuser.addValueEventListener(new ValueEventListener() {
+        dbuser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final String userType = dataSnapshot.getValue(String.class);

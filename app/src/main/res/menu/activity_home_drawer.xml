@@ -25,7 +25,6 @@
             android:id="@+id/wall"
             android:icon="@drawable/maps"
             android:title="Wall"
-            android:visible="false"
             />
         <item
             android:id="@+id/accSetting"
