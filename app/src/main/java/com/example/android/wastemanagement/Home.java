@@ -162,6 +162,8 @@ public class Home extends AppCompatActivity {
                             }
                             if(user.getReg_status()==0){
                                 //open applyAsDonor form
+                                Intent intent = new Intent(Home.this, ApplyAsDonor.class);
+                                startActivity(intent);
                             }
                         }else if(userType.equals("volunteer")){
                             Volunteer user = dataSnapshot1.getValue(Volunteer.class);
