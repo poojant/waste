@@ -39,7 +39,7 @@ public class Wall extends AppCompatActivity {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
-    String name, imgUrl;
+    String name, imgUrl, userType;
     FirebaseRecyclerAdapter<Post, PostAdapterViewHolder> adapter;
     android.support.v7.widget.Toolbar toolbar;
 
@@ -64,6 +64,17 @@ public class Wall extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            userType = bundle.getString("userType");
+            Log.d("userType",userType);
+            if(userType.equals("donor")){
+                Log.d("userType", "inside if");
+                mic.setEnabled(false);
+                send.setEnabled(false);
+                chatText.setEnabled(false);
+            }
+        }
         mic.setOnClickListener(new View.OnClickListener() {
 
             @Override

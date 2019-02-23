@@ -136,7 +136,7 @@ public class ApplyAsVolunteer extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                                 ngoAuth.add(snapshot.getKey().toString());
-                                ngoName.add(snapshot.child(snapshot.getKey().toString()).getValue(String.class));
+                                ngoName.add(snapshot.child("name").getValue(String.class));
                             }
 
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -196,7 +196,11 @@ public class ApplyAsVolunteer extends AppCompatActivity {
                 }else{
                     db = FirebaseDatabase.getInstance().getReference().child(radioSelected).child(ngoAuthKey)
                             .child("toApprove").child(auth.getUid());
+                    DatabaseReference dbrefx = FirebaseDatabase.getInstance().getReference()
+                            .child("volunteer").child(auth.getUid());
                     db.setValue(new Volunteer(Vname,Vemail,Long.valueOf(mobile_no.getText().toString().trim()),userImageUrl,
+                            Vaddress,1,0,ngoAuthKey, String.valueOf(path)));
+                    dbrefx.setValue(new Volunteer(Vname,Vemail,Long.valueOf(mobile_no.getText().toString().trim()),userImageUrl,
                             Vaddress,1,0,ngoAuthKey, String.valueOf(path)));
                 }
             }

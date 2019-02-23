@@ -51,6 +51,7 @@ public class AccountSetting extends AppCompatActivity {
     AlertDialog.Builder AlertName;
     EditText edittext;
     Bitmap compressed;
+    String userType;
     private DatabaseReference accountref, db;
     private StorageReference mStorage;
     android.support.v7.widget.Toolbar toolbar;
@@ -85,7 +86,7 @@ public class AccountSetting extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                final String userType = dataSnapshot.getValue(String.class);
+                userType = dataSnapshot.getValue(String.class);
                 DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child(userType).child(auth.getUid());
                 dbref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -159,7 +160,7 @@ public class AccountSetting extends AppCompatActivity {
             }
         });
 
-        db = FirebaseDatabase.getInstance().getReference().child("user_details").child(auth.getUid()).child("userImgUrl");
+        db = FirebaseDatabase.getInstance().getReference().child(userType).child(auth.getUid()).child("userImgUrl");
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -190,9 +191,9 @@ public class AccountSetting extends AppCompatActivity {
                         //What ever you want to do with the value
                         final String newName = String.valueOf(edittext.getText());
                         DatabaseReference accountref = FirebaseDatabase.getInstance().getReference()
-                                .child("user_details")
+                                .child(userType)
                                 .child(auth.getUid())
-                                .child("userName");
+                                .child("name");
 
                         accountref.setValue(newName);
                         finish();
@@ -268,7 +269,7 @@ public class AccountSetting extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
                 {
                     Uri path= taskSnapshot.getDownloadUrl();
-                    accountref = FirebaseDatabase.getInstance().getReference().child("user_details").child(auth.getUid());
+                    accountref = FirebaseDatabase.getInstance().getReference().child(userType).child(auth.getUid());
                     accountref.child("userImgUrl").setValue(String.valueOf(path));
                     Toast.makeText(AccountSetting.this, "Profile Changed", Toast.LENGTH_LONG).show();
                     finish();

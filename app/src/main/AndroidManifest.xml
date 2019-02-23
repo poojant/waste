@@ -36,7 +36,8 @@
         <activity android:name=".ApplyAsNgo" />
         <activity android:name=".ApproveVolunteer" />
         <activity android:name=".Wall" />
-        <activity android:name=".ApplyAsDonor"></activity>
+        <activity android:name=".ApplyAsDonor" />
+        <activity android:name=".ApplyAsIndustry"></activity>
     </application>
 
 </manifest>

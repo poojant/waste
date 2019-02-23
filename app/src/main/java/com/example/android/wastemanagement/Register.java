@@ -137,8 +137,9 @@ public class Register extends AppCompatActivity {
                                     }else if(userType.equals("ngo")){
                                         Ngo user = new Ngo(username, email,0, "no", "no", "no", "no",
                                                 0,new Bandwidth(0,0,0,0,0,0,0),
-                                                new Volunteer(null,null,0,null,
-                                                        null,0,0,null,null),new HashMap<String, Boolean>(),"no", "no");
+                                                //new Volunteer(null,null,0,null,
+                                                //        null,0,0,null,null)
+                                                new Volunteer(),new HashMap<String, Boolean>(),"no", "no");
                                         DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("ngo").child(auth.getUid());
                                         db.setValue(user);
                                     }else if(userType.equals("industry")) {

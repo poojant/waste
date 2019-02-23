@@ -110,6 +110,7 @@
                 android:id="@+id/form_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:tooltipText="Select one!"/>
 
             <android.support.v7.widget.CardView

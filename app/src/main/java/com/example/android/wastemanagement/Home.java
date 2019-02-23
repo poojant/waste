@@ -34,6 +34,7 @@ public class Home extends AppCompatActivity {
     private TextView userName, userEmail;
     DatabaseReference dbuser, dbtoken;
     ImageView userImg;
+    String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +99,12 @@ public class Home extends AppCompatActivity {
                         }
                         if(menuItem.getItemId() == R.id.approve_volunteers){
                             Intent intent = new Intent(Home.this, ApproveVolunteer.class);
+                            intent.putExtra("userType", userType);
                             startActivity(intent);
                         }
                         if(menuItem.getItemId() == R.id.wall){
                             Intent intent = new Intent(Home.this, Wall.class);
+                            intent.putExtra("userType", userType);
                             startActivity(intent);
                         }
                         /*if(menuItem.getItemId() == R.id.show_maps) {
@@ -148,7 +151,7 @@ public class Home extends AppCompatActivity {
         dbuser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final String userType = dataSnapshot.getValue(String.class);
+                userType = dataSnapshot.getValue(String.class);
                 DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child(userType).child(auth.getUid());
                 dbref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -186,6 +189,8 @@ public class Home extends AppCompatActivity {
                             }
                             if(user.getReg_status()==0){
                                 //open applyAsNgo form
+                                Intent intent = new Intent(Home.this, ApplyAsNgo.class);
+                                startActivity(intent);
                             }else{
                                 navigationView.getMenu().findItem(R.id.approve_volunteers).setVisible(true);
                             }
